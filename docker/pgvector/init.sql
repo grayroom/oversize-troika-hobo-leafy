@@ -1,0 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+CREATE USER test_db_user WITH PASSWORD 'yhk-vqc_drq2GZK1rud';
+CREATE DATABASE test_db;
+GRANT ALL PRIVILEGES ON DATABASE test_db TO test_db_user;
+ALTER DATABASE test_db OWNER TO test_db_user;

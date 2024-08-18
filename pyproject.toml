@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "mydata-doc-rag-agent"
+version = "0.1.0"
+description = ""
+authors = ["grayroom <leejh9226@gmail.com>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.112.0"
+uvicorn = "^0.30.5"
+black = "^24.8.0"
+pydantic-settings = "^2.4.0"
+redis = "^5.0.8"
+sqlalchemy = "^2.0.32"
+pdfplumber = "^0.11.3"
+langchain-text-splitters = "^0.2.2"
+openai = "^1.40.3"
+langchain = "^0.2.10"
+langchain-openai = "^0.1.21"
+pgvector = "^0.2.5"
+langchain-community = "^0.2.9"
+alembic = "^1.13.2"
+asyncpg = "^0.29.0"
+greenlet = "^3.0.3"
+python-multipart = "^0.0.9"
+psycopg2-binary = "^2.9.9"
+backoff = "^2.2.1"
+rank-bm25 = "^0.2.2"
+langchain-postgres = "^0.0.9"
+psycopg-binary = "^3.2.1"
+flashrank = "^0.2.9"
+langgraph = "^0.2.4"
+ipython = "^8.26.0"
+streamlit = "^1.37.1"
+requests = "^2.32.3"
+pymupdf = "^1.24.9"
+pytest = "^8.3.2"
+trio = "^0.26.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

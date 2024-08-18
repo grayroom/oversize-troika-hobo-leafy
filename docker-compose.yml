@@ -1,0 +1,44 @@
+# docker-compose.yml
+version: '3'
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: mydata-agent-user
+      POSTGRES_PASSWORD: yhk-vqc_drq2GZK1rud
+      POSTGRES_DB: mydata-agent
+      POSTGRES_HOST: 0.0.0.0
+      POSTGRES_PORT: 5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/pgvector/data:/var/lib/postgresql/data
+      - ./docker/pgvector/init.sql:/docker-entrypoint-initdb.d/init.sql
+  redis:
+    image: redis:latest
+    platform: linux/amd64
+    ports:
+      - "6379:6379"
+    command: redis-server --save ""
+
+  api:
+    build: api
+    platform: linux/amd64
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pgvector
+      - redis
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  client:
+    build: client
+    platform: linux/amd64
+    ports:
+      - "8506:8506"
+    depends_on:
+      - api
+    command: streamlit run app.py --server.address 0.0.0.0 --server.port 8506

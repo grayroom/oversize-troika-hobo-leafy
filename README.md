@@ -31,7 +31,7 @@ OPENAI_API_KEY=<OPEN_API_KEY를 여기에 넣으세요>
 docker-compose up -d
 ```
 
-## 서비스 페이지
+## 서비스 페이지 [127.0.0.1:8506 으로 접속]
 ![image](documentation/streamlit.png)
 - 사용자가 질문을 입력하면 문서를 참고하여 답변을 생성하고, 참고한 문서 정보를 제공합니다.
 - 사용자가 문서 페이지를 요청하면 해당 페이지를 이미지로 제공합니다.

@@ -2,7 +2,9 @@
 `LangChain` `LangGraph` `OpenAI API`를 활용하여  마이데이터 공식 문서를 기반으로 정책과 기술 사양 등을 답변할 수 있는 챗봇 RAG-LLM 
 Agent입니다.
 
+---
 ## How to Run
+- 프로젝트 실행시 `5432` `6379` `8000` `8506` 포트를 사용하므로, 해당 포트가 사용중이라면 사용중인 프로세스를 종료해주세요
 ### 1. .env 파일을 루트 디렉토리에 생성
 ```.dotenv
 POSTGRES_HOST=pgvector
@@ -31,11 +33,13 @@ OPENAI_API_KEY=<OPEN_API_KEY를 여기에 넣으세요>
 docker-compose up -d
 ```
 
+---
 ## 서비스 페이지 [127.0.0.1:8506 으로 접속]
 ![image](documentation/streamlit.png)
 - 사용자가 질문을 입력하면 문서를 참고하여 답변을 생성하고, 참고한 문서 정보를 제공합니다.
 - 사용자가 문서 페이지를 요청하면 해당 페이지를 이미지로 제공합니다.
 
+---
 ## 아키텍처
 ![image](documentation/architecture_overview.png)
 ### 관리자 Usecase
@@ -46,6 +50,7 @@ docker-compose up -d
 3. OpenAI `text-embedding-3-large` 모델을 활용하여 Chunk를 벡터화합니다.
 4. 벡터화된 Chunk를 `PGVector`에 저장합니다.
 
+---
 ### 사용자 Usecase
 1. 사용자는 `Streamlit` 페이지를 통해 `마이데이터`에 대한 질문을 입력합니다. 가능한 질문 시나리오는 아래와 같습니다.
    - 마이데이터에 대한 질문
@@ -60,6 +65,7 @@ docker-compose up -d
      - `문서검색기`: 사용자가 요청한 문서의 특정 페이지 이미지를 제공합니다.
 4. `Agent`는 직접 생성하거나, `Tools`로부터 받은 답변을 사용자에게 제공합니다.
 
+---
 ## 프로젝트 폴더 구조
 ```text
 ├── api
@@ -114,7 +120,7 @@ docker-compose up -d
 └── pyproject.toml
 
 ```
-
+---
 ## Key Features & Tools
 ### ⭐ Agent 주도형 챗봇
 > 키워드: `LangGraph` `LangChain` `Tool Bind`
@@ -150,6 +156,7 @@ self.tool_set = [
 ToolBind는 복잡한 Chain구성을 요구하지 않고, 아래와 같이 간단한 함수로 구성할 수 있도록 설계했습니다. Agent는 description을 참고하여, 가장 
 적절한 Tool을 선택하여 동작합니다.
 
+---
 ### ⭐ 문서 페이지 이미지 제공
 > 키워드: `문서 이미지 제공`
 
@@ -158,6 +165,7 @@ ToolBind는 복잡한 Chain구성을 요구하지 않고, 아래와 같이 간�
 수 있도록 구현했습니다.
 - 이미지를 Base64 그대로 응답하는것은 Context를 크게 차지하게 되므로, 이미지를 저장하고, 해당 이미지의 URL을 응답하는 방식으로 구현했습니다.
 
+---
 ### ⭐ 답변생성 진행상황 제공
 > 키워드: `진행상황 제공` `UX 개선`
  
@@ -170,7 +178,7 @@ ToolBind는 복잡한 Chain구성을 요구하지 않고, 아래와 같이 간�
 ![image](documentation/done.png)
 Tool 사용 등, 답변 생성 프로세스가 진행됨에 따라 위와같이 단계에 대한 정보를 제공합니다.
 
-
+---
 ### ⭐ 정확한 답변 생성을 위한 Retriever 구조
 > 키워드: `PGVector` `BM25` `Reranker` `MultiQuery`
  
@@ -178,12 +186,14 @@ Retriever는 질문에 따라, 어떤 문서가 가장 적절한 문서인지 �
 높은 문서가 적절할 수도 있고, `Semantic Similarity`가 높은 문서가 적절할 수도 있습니다. 이를 위해, `BM25`와 `Reranker`를 
 `EnsembleRetriever`로 결합한 뒤, `FlashRank Reranker`를 통해 최종적으로 가장 적절한 문서를 선택하도록 구현했습니다.
 
+---
 ### 멀티턴 에이전트
 > 키워드: `AsyncRedisSaver` `checkpointer`
 
 멀티턴 에이전트는 사용자가 이전 질문에 대한 추가 질문을 하는 경우, 이전 질문에 대한 답변을 참조하여 답변을 생성합니다. 이를 위해, `AsyncRedisSaver`를 
 적용하여 이전 질문에 대한 답변을 저장하고, `checkpointer`를 통해 이전 질문에 대한 답변을 참조할 수 있도록 구현했습니다.
 
+---
 ### 확장 가능한 프로젝트 구조
 > 키워드: `동적 Chain Builder` `Pydantic Schema` `Dependency Injection`
 
@@ -239,6 +249,7 @@ chain_builder.build_chain(
 )
 ``` 
 
+---
 ### 사용자별 요청에 대한 동시성 해결
 > 키워드: `Session ID`
 
@@ -271,6 +282,7 @@ chain_builder.build_chain(
             yield f"data: {json.dumps(session_field | type_field | content)}\n\n"
 ``` 
 
+---
 ### 모델 토큰 제한 해결
 > 키워드: `history` `AsyncRedisSaver`
 

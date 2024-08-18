@@ -312,6 +312,13 @@ async def _filter_message_by_token_length(messages):
     return list(reversed(filtered_messages))
 ```
 
+---
+## 🧪 테스트코드 실행방법
+- 시스템 환경변수에 env=test 를 설정하고, 루트 디렉토리에서 아래 명령어를 실행합니다.
+```bash
+pytest
+```
+
 
 
 

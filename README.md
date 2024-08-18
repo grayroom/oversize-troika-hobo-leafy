@@ -3,22 +3,32 @@
 Agent입니다.
 
 ## How to Run
-### 1. Docker Compose를 통해 Redis, PGVector 서버 실행
+### 1. .env 파일을 루트 디렉토리에 생성
+```.dotenv
+POSTGRES_HOST=pgvector
+POSTGRES_PORT=5432
+
+POSTGRES_DB=mydata-agent
+POSTGRES_USER=mydata-agent-user
+POSTGRES_PASSWORD=yhk-vqc_drq2GZK1rud
+
+REDIS_HOST=redis
+REDIS_PORT=6379
+REDIS_DB=0
+
+RETRIEVER_TOP_K=10
+RETRIEVER_TOP_N=8
+
+EMBEDDING_MODEL=text-embedding-3-large
+CHAT_MODEL=gpt-4o
+
+DOCUMENT_DIR=documents
+
+OPENAI_API_KEY=<OPEN_API_KEY를 여기에 넣으세요>
+```
+### 2. Docker Compose를 통해 모두 실행
 ```bash
 docker-compose up -d
-```
-### 2. Poetry를 통해 의존성 설치
-```bash
-poetry install
-```
-- 만약 로컬 환경에 Poetry가 설치되어 있지 않다면, 아래 명령어를 통해 설치할 수 있습니다.
-```bash
-# https://python-poetry.org/docs/#installation
-curl -sSL https://install.python-poetry.org | python -
-```
-### 3. 프로젝트 실행(w/ bash script)
-```bash
-bash run.sh
 ```
 
 ## 서비스 페이지
